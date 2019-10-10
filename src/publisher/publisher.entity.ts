@@ -15,6 +15,6 @@ export class Publisher {
     @Column({ type: 'varchar', length: 50 })
     phone: string;
 
-    @OneToMany(() => Game, (game: Game) => game.publisher, { eager: false })
+    @OneToMany(() => Game, game => game.publisher, { eager: false })
     public games: Game[];
 }

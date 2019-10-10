@@ -12,7 +12,7 @@ export class Game {
     @Column('int')
     price: number;
 
-    @ManyToOne(() => Publisher, (pub: Publisher) => pub.games, { eager: true })
+    @ManyToOne(() => Publisher, pub => pub.games, { eager: false })
     @JoinColumn({ name: 'publisher' })
     publisher: Publisher;
 

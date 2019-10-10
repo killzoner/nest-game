@@ -12,7 +12,23 @@ export class GameService {
   ) { }
 
   findAll(): Promise<Game[]> {
-    return this.gameRepository.find();
+    return this.gameRepository.find({ relations: ['publisher'] });
+  }
+
+  createOne(game: Game): Promise<Game> {
+    return this.gameRepository.save(game);
+  }
+
+  getOne(id: string): Promise<Game> {
+    return this.gameRepository.findOne(id);
+  }
+
+  updateOne(id: string, game: Game): Promise<Game> {
+    return this.gameRepository.save(game);
+  }
+
+  deleteOne(): Promise<Game[]> {
+    return this.gameRepository.find({ relations: ['publisher'] });
   }
 
 }

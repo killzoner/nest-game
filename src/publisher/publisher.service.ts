@@ -12,7 +12,7 @@ export class PublisherService {
   ) { }
 
   findAll(): Promise<Publisher[]> {
-    return this.publisherRepository.find();
+    return this.publisherRepository.find({ relations: ['games'] });
   }
 
 }

@@ -10,7 +10,8 @@ import { GameModule } from './game/game.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      // host: 'localhost',
+      host : '192.168.99.100',
       port: 5432,
       username: 'admin',
       password: 'admin',

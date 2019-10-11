@@ -1,8 +1,8 @@
-import { Controller, Get, Param, Res, HttpStatus, Put, Post, Body, Logger, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Res, HttpStatus, Put, Post, Body, Logger, Delete, Query } from '@nestjs/common';
 import { GameService } from './game.service';
 import { Response } from 'express';
 import { from, of } from 'rxjs';
-import { map, first, switchMap, flatMap, tap, catchError } from 'rxjs/operators';
+import { map, first, switchMap, catchError } from 'rxjs/operators';
 import { Game } from './game.entity';
 import { ApiUseTags } from '@nestjs/swagger';
 import { GameDTO } from './game.dto';
@@ -16,8 +16,8 @@ export class GameController {
   constructor(private readonly gameService: GameService) { }
 
   @Get()
-  getAll() {
-    return this.gameService.findAll();
+  getAll(@Query('publisherName') publisherName) {
+    return this.gameService.findAll(publisherName);
   }
 
   @Get(':id')

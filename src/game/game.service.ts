@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Game } from './game.entity';
+import { map, first } from 'rxjs/operators';
+import { from } from 'rxjs';
 
 @Injectable()
 export class GameService {
@@ -19,16 +21,17 @@ export class GameService {
     return this.gameRepository.save(game);
   }
 
-  getOne(id: string): Promise<Game> {
+  getOne(id: number): Promise<Game> {
     return this.gameRepository.findOne(id);
   }
 
-  updateOne(id: string, game: Game): Promise<Game> {
-    return this.gameRepository.save(game);
+  updateOne(id: number, game: Game): Promise<Game> {
+    return this.gameRepository.findOne(id).then(
+      () => this.gameRepository.update(id, game).then(() => this.gameRepository.findOne(id)));
   }
 
-  deleteOne(): Promise<Game[]> {
-    return this.gameRepository.find({ relations: ['publisher'] });
+  deleteOne(id): Promise<void> {
+    return from(this.gameRepository.delete(id)).pipe(first(), map(() => { return; })).toPromise();
   }
 
 }

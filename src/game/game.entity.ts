@@ -3,6 +3,7 @@ import { Publisher } from '../publisher/publisher.entity';
 
 @Entity({ name: 'GAME' })
 export class Game {
+
     @PrimaryGeneratedColumn()
     id: number;
 

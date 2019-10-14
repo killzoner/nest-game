@@ -76,7 +76,6 @@ export class GameService {
           this.logger.log(`Removing games with ids ${ids}`);
           this.gameRepository.delete(ids);
         }
-        console.log(values);
       });
     return Promise.resolve();
   }
@@ -100,7 +99,6 @@ export class GameService {
           values.map((v) => { v.price = +(v.price * 0.8).toFixed(2); });
           this.gameRepository.save(values);
         }
-        console.log(values);
       });
     return Promise.resolve();
   }

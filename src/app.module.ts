@@ -11,7 +11,7 @@ import { GameModule } from './game/game.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST || 'localhost',
-      // host : '192.168.99.100',
+      // host : '192.168.99.100', // on docker windows with docker-machine
       port: 5432,
       username: process.env.DB_USER || 'admin',
       password: process.env.DB_PASS || 'admin',

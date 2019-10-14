@@ -1,0 +1,17 @@
+version: '3'
+services:
+  postgresdb:
+      image: sameersbn/postgresql:10-2
+      ports:
+        - "5432:5432"
+      environment:
+        - DB_USER=admin
+        - DB_PASS=admin
+  flyway_mysql:
+    image: arojunior/flyway:5.2.4
+    command: "wait-for-it --timeout=60 --strict postgresdb:5432 -- flyway migrate"
+    volumes:
+      - ./migrations/config:/flyway/conf
+      - ./migrations/sql:/flyway/sql
+    depends_on:
+      - postgresdb

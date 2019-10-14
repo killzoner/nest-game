@@ -67,7 +67,7 @@ export class GameService {
   private getTooOldGames(): Promise<void> {
     const eighteenMonthsAgo = moment().subtract(18, 'months').calendar();
     this.logger.log(`Removing games older than  ${eighteenMonthsAgo}`);
-    this.gameRepository
+    return this.gameRepository
       .createQueryBuilder('game')
       .where('game.releaseDate < :eighteenMonthsAgo', { eighteenMonthsAgo })
       .getMany().then((values) => {
@@ -77,14 +77,13 @@ export class GameService {
           this.gameRepository.delete(ids);
         }
       });
-    return Promise.resolve();
   }
 
   private getOldGames(): Promise<void> {
     const eighteenMonthsAgo = moment().subtract(18, 'months').calendar();
     const twelveMonthsAgo = moment().subtract(12, 'months').calendar();
     this.logger.log(`Promo on games between  ${eighteenMonthsAgo} and ${twelveMonthsAgo}`);
-    this.gameRepository
+    return this.gameRepository
       .createQueryBuilder('game')
       .where('game.releaseDate >= :eighteenMonthsAgo AND game.releaseDate <= :twelveMonthsAgo ',
         {
@@ -100,7 +99,6 @@ export class GameService {
           this.gameRepository.save(values);
         }
       });
-    return Promise.resolve();
   }
 
 }

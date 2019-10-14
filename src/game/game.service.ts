@@ -53,18 +53,18 @@ export class GameService {
     /**
      * Remove older than 18 months
      */
-    const remove = this.getTooOldGames();
+    const remove = this.processTooOldGames();
 
     /**
      * Discount of 20%
      * to games between 12 and 18 months
      */
-    const promo = this.getOldGames();
+    const promo = this.processOldGames();
 
     return Promise.all([remove, promo]).then(() => { return; });
   }
 
-  private getTooOldGames(): Promise<void> {
+  private processTooOldGames(): Promise<void> {
     const eighteenMonthsAgo = moment().subtract(18, 'months').calendar();
     this.logger.log(`Removing games older than  ${eighteenMonthsAgo}`);
     return this.gameRepository
@@ -79,7 +79,7 @@ export class GameService {
       });
   }
 
-  private getOldGames(): Promise<void> {
+  private processOldGames(): Promise<void> {
     const eighteenMonthsAgo = moment().subtract(18, 'months').calendar();
     const twelveMonthsAgo = moment().subtract(12, 'months').calendar();
     this.logger.log(`Promo on games between  ${eighteenMonthsAgo} and ${twelveMonthsAgo}`);

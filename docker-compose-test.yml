@@ -7,7 +7,7 @@ services:
       environment:
         - DB_USER=admin
         - DB_PASS=admin
-  flyway_mysql:
+  flyway_postgresql:
     image: arojunior/flyway:5.2.4
     command: "wait-for-it --timeout=60 --strict postgresdb:5432 -- flyway migrate"
     volumes:

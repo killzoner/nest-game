@@ -13,7 +13,25 @@ import { QueryFailedError } from 'typeorm';
 @ApiUseTags('game')
 export class GameController {
   private readonly logger = new Logger(GameController.name);
+  private runningCleanup = false;
+
   constructor(private readonly gameService: GameService) { }
+
+  /**
+   * Triggers the process to remove old games and make
+   * promotion to remaining old ones
+   * @param id
+   * @param res
+   */
+  @Post('/cleanup')
+  doDiscountAndCleanup(@Res() res: Response) {
+    if (this.runningCleanup) {
+      return res.status(HttpStatus.CONFLICT).json();
+    }
+    this.runningCleanup = true;
+    this.gameService.discountProcess().then(() => this.runningCleanup = false);
+    return res.status(HttpStatus.OK).json();
+  }
 
   @Get()
   getAll(@Query('publisherName') publisherName) {
@@ -114,4 +132,5 @@ export class GameController {
             ));
         }));
   }
+
 }

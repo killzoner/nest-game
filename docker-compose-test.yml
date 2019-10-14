@@ -15,3 +15,16 @@ services:
       - ./migrations/sql:/flyway/sql
     depends_on:
       - postgresdb
+  nodeapp:
+    build:
+        context: ./
+        dockerfile: Dockerfile
+    ports:
+        - "3000:3000"
+    environment:
+        - DB_USER=admin
+        - DB_PASS=admin
+        - DB_HOST=postgresdb
+    depends_on:
+      - postgresdb
+    command: "wait-for-it --timeout=60 --strict postgresdb:5432 -- node main.js"
